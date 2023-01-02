@@ -19,4 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('hotels', HotelController::class)->middleware('auth');
+Route::resource('rooms', RoomController::class)->middleware('auth');
+
 Route::get('/home', 'HomeController@index')->name('home');

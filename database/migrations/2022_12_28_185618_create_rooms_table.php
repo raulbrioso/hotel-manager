@@ -19,7 +19,6 @@ class CreateRoomsTable extends Migration
             $table->string('name');
             $table->integer('max_guest');
             $table->string('floor');
-            $table->string('postal_code');
             $table->boolean('status');
 
             $table->bigInteger('hotel_id')->unsigned();
