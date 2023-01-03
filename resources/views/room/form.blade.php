@@ -15,7 +15,7 @@
             </div>
             <div class="row">
                 <div class="col-6 form-group">
-                    {{ Form::label('hotel_id') }}
+                    {{ Form::label('hotel') }}
                     {{ Form::select('hotel_id', $hotels, $room->hotel_id, ['class' => 'form-control' . ($errors->has('hotel_id') ? ' is-invalid' : ''), 'placeholder' => '']) }}
                     {!! $errors->first('hotel_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>

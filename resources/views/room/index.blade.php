@@ -133,10 +133,13 @@
                 
             });
         });
+
         function changeStatusDt(btn){
             let td = btn.parent();
-            td.html('<a class="btn btn-sm btn-primary " href="{{ route('rooms.reservation',$room->id) }}">Checkin</a>');
-            td.parent().find('.status').html('<span class="btn btn-success empty">Empty</span>')
+            let url = "{{ route('rooms.reservation',0) }}";
+            url = url.replace('0', btn.attr('id'));
+            td.html('<a class="btn btn-sm btn-primary " href="'+url+'">Checkin</a>');
+            td.parent().find('.status').html('<span class="btn btn-success empty">Empty</span>');
         }
     </script>
 @endsection

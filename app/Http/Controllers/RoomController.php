@@ -122,6 +122,10 @@ class RoomController extends Controller
 
     public function reservationstore(Request $request)
     {
+        request()->validate([
+            'checkin' => 'required|lte:checkout',
+            'checkout' => 'required',
+        ]);
 
         $reservation = [
             $request->input('user_id') => [
@@ -146,7 +150,7 @@ class RoomController extends Controller
         ->where('user_id',auth()->user()->id)
         ->update(['checkout' => \Carbon\Carbon::now()->format('Y-m-d')]);
 
-        return response(json_encode(users),200)->header('Content-type','text/plain');
+        return response(json_encode($users),200)->header('Content-type','text/plain');
     }
 
     public function checkstatus()
