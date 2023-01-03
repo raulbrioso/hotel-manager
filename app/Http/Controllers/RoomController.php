@@ -141,12 +141,12 @@ class RoomController extends Controller
     public function checkout(Request $request)
     {
         $room = Room::find($request->input('room_id'))->update(['status' => 0]);
-       /* $users = DB::table('room_user')
+        $users = DB::table('room_user')
         ->where('room_id',$request->input('room_id'))
         ->where('user_id',auth()->user()->id)
-        ->update(['checkout' => \Carbon\Carbon::now()->format('Y-m-d')]);*/
+        ->update(['checkout' => \Carbon\Carbon::now()->format('Y-m-d')]);
 
-        return response(json_encode(true),200)->header('Content-type','text/plain');
+        return response(json_encode(users),200)->header('Content-type','text/plain');
     }
 
     public function checkstatus()
@@ -167,5 +167,19 @@ class RoomController extends Controller
                 }
             }
         }
+    }
+
+    //API
+    public function list($hotel_id,Request $request)
+    {
+        $rooms = Room::where('hotel_id',$hotel_id);
+        if($request->has('status')){
+            $rooms->where('status',$request->input('status'));
+        }
+        if($request->has('name')){
+            $rooms->where('name','like','%'.$request->input('name').'%');
+        }
+        
+        return response()->json($rooms->get());
     }
 }

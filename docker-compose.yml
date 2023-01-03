@@ -18,7 +18,8 @@ services:
       - ./:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
-      - app-network
+      vpcbr:
+        ipv4_address: 192.168.100.3
 
   #Nginx Service
   webserver:
@@ -33,7 +34,8 @@ services:
       - ./:/var/www
       - ./nginx/conf.d:/etc/nginx/conf.d/default.conf
     networks:
-      - app-network
+      vpcbr:
+        ipv4_address: 192.168.100.4
 
   #MySQL Service
   db:
@@ -52,12 +54,17 @@ services:
       - dbdata:/var/lib/mysql/
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
-      - app-network
+      vpcbr:
+        ipv4_address: 192.168.100.2
 
 #Docker Networks
 networks:
-  app-network:
+  vpcbr:
     driver: bridge
+    ipam:
+     config:
+       - subnet: 192.168.100.0/16
+         gateway: 192.168.100.1
 #Volumes
 volumes:
   dbdata:
