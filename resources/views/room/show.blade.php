@@ -26,25 +26,24 @@
                         </div>
                         <div class="form-group">
                             <strong>Max Guest:</strong>
-                            {{ $room->max_guest }}
+                            {{ $room->max_guest }} <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="form-group">
                             <strong>Floor:</strong>
                             {{ $room->floor }}
                         </div>
                         <div class="form-group">
-                            <strong>Postal Code:</strong>
-                            {{ $room->postal_code }}
-                        </div>
-                        <div class="form-group">
                             <strong>Status:</strong>
-                            {{ $room->status }}
+                            @if ($room->status)
+                                <span class="btn btn-danger">Occupied</span>
+                            @else
+                                <span class="btn btn-success">Empty</span>
+                            @endif
                         </div>
                         <div class="form-group">
                             <strong>Hotel:</strong>
                             <a href="{{ route('hotels.index').'/'.$room->hotel_id }}"> {{ $room->hotel->name }}</a>
                         </div>
-
                     </div>
                 </div>
             </div>

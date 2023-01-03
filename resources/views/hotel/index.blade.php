@@ -40,9 +40,8 @@
 										<th>Street</th>
 										<th>Postal Code</th>
 										<th>City</th>
-										<th>Country</th>
 										<th>Province</th>
-
+                                        <th>Country</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -55,8 +54,8 @@
 											<td>{{ $hotel->street }}</td>
 											<td>{{ $hotel->postal_code }}</td>
 											<td>{{ $hotel->city }}</td>
-											<td>{{ $hotel->country->name }}</td>
 											<td>{{ $hotel->province->name }}</td>
+											<td>{{ $hotel->country->name }}</td>
 
                                             <td>
                                                 <form action="{{ route('hotels.destroy',$hotel->id) }}" method="POST">

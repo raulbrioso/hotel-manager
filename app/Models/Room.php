@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 /**
  * Class Room
@@ -62,9 +63,9 @@ class Room extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function roomUsers()
+    public function users()
     {
-        return $this->hasMany('App\Models\RoomUser', 'room_id', 'id');
+        return $this->belongsToMany(User::class,'room_user','room_id','user_id') ->withPivot('checkin','checkout');;
     }
     
 
