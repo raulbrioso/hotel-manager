@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('rooms.index') }}">{{ __('Rooms') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.index') }}">{{ __('Reservations') }}</a>
+                        </li>
                     </ul>
                     @endif
                     <!-- Right Side Of Navbar -->

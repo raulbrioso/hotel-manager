@@ -48,27 +48,44 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
+                                    <tr>
+                                        <form action="{{ action('RoomController@indexfilter') }}" method="POST">
+                                            @csrf  
+                                        
+                                        <td></td>
+                                        <td>{{ Form::text('name_filter', $name_filter??'', ['class' => 'form-control']) }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ Form::select('status_filter', ['0' => 'Empty','1' => 'Occupied'], $status_filter??'', ['class' => 'form-control','placeholder' => '']) }}</td>
+                                        <td>{{ Form::select('hotel_filter', $hotels,  $hotel_filter ?? '', ['class' => 'form-control','placeholder' => '']) }}
+                                        </td>
+                                        <td></td>
+                                        <td><button class="btn btn-info" type="submit"><i class="fa-solid fa-filter"></i></button>
+                                            <a class="btn btn-secondary" href="{{ route('rooms.index') }}"><i class="fa-solid fa-x"></i></a>
+                                        </td>
+                                        </form>
+                                    </tr>
                                     @foreach ($rooms as $room)
                                         <tr>
                                             <td>{{ ++$i }}</td>
                                             
 											<td>{{ $room->name }}</td>
-											<td>{{ $room->max_guest }}</td>
+											<td>{{ $room->max_guest }} <i class="fa-solid fa-user"></i></td>
 											<td>{{ $room->floor }}</td>
 											<td class="status">
                                                 @if ($room->status)
-                                                    <span class="btn btn-danger occupied">Occupied</span>
+                                                    <span class="btn btn-sm btn-danger occupied">Occupied</span>
                                                 @else
-                                                    <span class="btn btn-success empty">Empty</span>
+                                                    <span class="btn btn-sm btn-success empty">Empty</span>
                                                 @endif
                                             </td>
-											<td><a href="{{ route('hotels.index',$room->hotel_id).'/'.$room->hotel_id }}"> {{ $room->hotel->name }}
+											<td><a href="{{ route('hotels.show',$room->hotel_id) }}"> {{ $room->hotel->name }}</a></td>
 
-                                            <td> </td>
                                             <td>
                                                 
                                                 @if (!$room->status)
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('rooms.reservation',$room->id) }}">Checkin</a>
+                                                    <a class="btn btn-sm btn-primary" href="{{ route('rooms.reservation',$room->id) }}">Checkin</a>
                                                 @else
                                                     @foreach ($room->users as $user)
                                                         @if ($user->id == auth()->user()->id && $user->pivot->checkout>\Carbon\Carbon::now()->format('Y-m-d'))
@@ -78,13 +95,13 @@
                                                         @endif 
                                                     @endforeach
                                                     @if (isset($checkout_btn) && $checkout_btn)
+                                                    <button class="btn btn-sm btn-warning checkout" id="{{ $room->id }}">Checkout</button>
                                                     @endif
-                                                    <button class="btn btn-warning checkout" id="{{ $room->id }}">Checkout</button>
+                                                    
                                                 @endif
                                                 
                                             </td>
 											
-                                            </a></td>
                                             <td>
                                                 <form action="{{ route('rooms.destroy',$room->id) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('rooms.show',$room->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
@@ -103,7 +120,9 @@
                         </div>
                     </div>
                 </div>
+                @if (!isset($filtered))
                 {!! $rooms->links() !!}
+                @endif
             </div>
         </div>
     </div>

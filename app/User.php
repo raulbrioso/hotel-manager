@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Room;
 
 class User extends Authenticatable
 {
@@ -40,6 +41,6 @@ class User extends Authenticatable
 
     public function rooms()
     {
-        return $this->belongsToMany('Room');
+        return $this->belongsToMany(Room::class,'room_user','room_id','user_id')->withPivot('checkin','checkout');
     }
 }

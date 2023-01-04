@@ -23,10 +23,40 @@ class RoomController extends Controller
     {
         $this->checkstatus();
         $rooms = Room::with('users')->paginate();
+        $hotels = Hotel::pluck('name','id');
+        //$hotels = array_merge([''=>''], Hotel::pluck('name','id')->toArray());
         
 
-        return view('room.index', compact('rooms'))
+        return view('room.index', compact('rooms','hotels'))
             ->with('i', (request()->input('page', 1) - 1) * $rooms->perPage());
+    }
+    
+    public function indexfilter(Request $request)
+    {
+
+        $this->checkstatus();
+        $rooms = Room::with('users');
+        $hotels = Hotel::pluck('name','id')->toArray();
+
+        if($request->has('name_filter') && $request->input('name_filter')!=''){
+            $name_filter = $request->input('name_filter');
+            $rooms->where('name','like','%'.$name_filter.'%');
+        }
+        if($request->has('status_filter') && $request->input('status_filter')!=null){
+            $status_filter = $request->input('status_filter');
+            $rooms->where('status',$status_filter);
+        }
+        if($request->has('hotel_filter') && $request->input('hotel_filter')!=null){
+            $hotel_filter = $request->input('hotel_filter');
+            $rooms->where('hotel_id',$hotel_filter);
+        }
+        //$sql = dd($rooms->toSql(), $rooms->getBindings());
+        $rooms = $rooms->paginate();
+        
+        $filtered = true;
+
+        return view('room.index', compact('rooms','hotels','name_filter','status_filter','hotel_filter','filtered'))
+            ->with('i');
     }
 
     /**
